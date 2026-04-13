@@ -8,12 +8,7 @@
 		</head>
 		
 		<body>
-		
-		</body>
-
-
-
-    <footer class="site-footer">
+		<footer class="site-footer">
         <div class="footer-inner">
             <div class="footer-left">
                 <p class="footer-names">Ahmed Ziat<br>Jordan Bongo Luemba<br>Dylan Sundari</p>
@@ -30,9 +25,5 @@
 
     <script src="../js/Page1.js"></script>
     <script src="../js/boutons.js"></script>
-</body>
-</html>
-
-	
-		
+		</body>
 </html>
