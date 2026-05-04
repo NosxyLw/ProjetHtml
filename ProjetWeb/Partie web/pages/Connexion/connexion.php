@@ -1,3 +1,95 @@
+
+<?php
+var_dump(headers_sent());
+require_once '../../database.php';
+session_start();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+$email = trim($_POST['email'] ?? '');
+
+$mdp = $_POST['mot_de_passe'] ?? '';
+
+$email_saisi = $email;
+
+
+if (empty($email) || empty($mdp)) {
+
+$erreur = 'Veuillez remplir tous les champs.';
+
+} else {
+
+
+// On cherche l'adhérent par son email
+
+// On ne fait PAS WHERE email = ? AND mot_de_passe = ?
+
+// car le mot de passe est haché → on ne peut pas comparer directement
+
+$stmt = $pdo->prepare('SELECT * FROM ADHERENT WHERE email = ?');
+
+$stmt->execute([$email]);
+
+$adherent = $stmt->fetch(); // fetch() retourne une ligne ou false
+
+
+// password_verify() compare le mot de passe saisi avec le hash stocké
+
+// C'est la seule façon correcte de vérifier un mot de passe haché
+
+if ($adherent && password_verify($mdp, $adherent['mot_de_passe'])) {
+
+
+// ── Connexion réussie ──
+
+// session_regenerate_id(true) crée un nouvel ID de session
+
+// Protège contre le vol de session (session fixation attack)
+
+session_regenerate_id(true);
+
+
+// Stockage des informations essentielles en session
+
+$_SESSION['adherent_id'] = $adherent['id_adherent'];
+
+
+$_SESSION['est_admin'] = (bool) $adherent['est_admin'];
+
+
+// Redirection selon le rôle
+
+if ($adherent['est_admin']) {
+
+header('Location: admin/dashboard.php');
+
+} else {
+
+header('Location: ../../index.php');
+
+}
+
+exit;
+
+
+} else {
+
+// Message d'erreur volontairement vague pour ne pas aider un attaquant
+
+// (on ne dit pas si c'est l'email ou le mot de passe qui est faux)
+
+$erreur = 'Email ou mot de passe incorrect.';
+
+}
+
+}
+
+}
+
+
+//debut_page('Connexion');
+
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -21,17 +113,8 @@
 
     <div class="container" style="min-height: 70vh; display: flex; align-items: center; justify-content: center;">
         <div class="form-card">
-            <h2>🔐 Connexion</h2>
+            <h2> Connexion</h2>
 
-            <?php if (isset($_GET['msg'])): ?>
-                <?php if ($_GET['msg'] === 'non_connecte'): ?>
-                    <div class="alert alert-info">Vous devez être connecté pour accéder à cette page.</div>
-                <?php elseif ($_GET['msg'] === 'deconnecte'): ?>
-                    <div class="alert alert-success">Vous avez été déconnecté avec succès.</div>
-                <?php elseif ($_GET['msg'] === 'acces_refuse'): ?>
-                    <div class="alert alert-error">Accès réservé aux administrateurs.</div>
-                <?php endif; ?>
-            <?php endif; ?>
 
             <form action="" method="post">
                 <div class="form-group">
@@ -58,7 +141,7 @@
 
             <div style="margin-top: 2rem; padding: 1rem; background: rgba(255, 210, 63, 0.1); border: 2px solid var(--jaune-flash);">
                 <p style="font-size: 0.85rem; color: var(--gris-beton); text-align: center;">
-                    <strong>🔐 Comptes de test :</strong><br>
+                    <strong> Comptes de test :</strong><br>
                     <span style="font-size: 0.75rem;">
                         Admin: admin@fdf.fr / admin123<br>
                         Adhérent: lucas@mail.fr / Test1234

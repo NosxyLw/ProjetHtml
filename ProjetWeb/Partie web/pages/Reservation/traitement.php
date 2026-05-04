@@ -1,4 +1,5 @@
 <?php
+require_once '../../Partie web/database.php'
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nom = htmlspecialchars($_POST['nom_client']);
     $date = htmlspecialchars($_POST['date_match']);

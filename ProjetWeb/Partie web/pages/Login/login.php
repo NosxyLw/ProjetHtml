@@ -22,6 +22,7 @@
     <div class="container" style="min-height: 70vh; display: flex; align-items: center; justify-content: center;">
         <div class="form-card">
             <?php
+            require_once '../../database.php';
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $email = htmlspecialchars($_POST['email']);
                 $nom = htmlspecialchars($_POST['nom']);
@@ -30,7 +31,7 @@
             }
             ?>
 
-            <h2>✍️ Inscription</h2>
+            <h2>Inscription</h2>
 
             <form action="" method="POST">
                 <div class="form-group">
