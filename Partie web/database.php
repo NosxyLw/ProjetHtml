@@ -5,9 +5,9 @@ $user = 'root';
 $pass = '';
 
 try {
-        $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 } catch (Exception $e) {
-        die("Erreur de connexion à la base de données. Vérifiez que MySQL est allumé dans XAMPP.");
+    die("Erreur de connexion a la base de donnees. Verifiez que MySQL est allume dans XAMPP.");
 }
 ?>
