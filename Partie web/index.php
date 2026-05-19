@@ -1,5 +1,4 @@
 <?php
-// Démarrage de la session : Indispensable pour savoir si l'utilisateur est connecté
 session_start();
 ?>
 <!DOCTYPE html>
@@ -16,21 +15,13 @@ session_start();
             <ul class="nav-links">
                 <li><a href="index.php">Accueil</a></li>
                 <li><a href="pages/Prestation/prestation.php">Prestations</a></li>
-                
-                <?php 
-                // RENDU DYNAMIQUE : Si la variable de session 'adherent_id' existe, l'utilisateur est connecté
-                if (isset($_SESSION['adherent_id'])) { 
-                ?>
+                <?php if (isset($_SESSION['adherent_id'])) { ?>
                     <li><strong style="color: white;">👋 Bonjour, <?php echo $_SESSION['prenom']; ?></strong></li>
                     <li><a href="pages/Connexion/deconnexion.php" class="btn btn-danger">Déconnexion</a></li>
-                <?php 
-                } else { 
-                ?>
+                <?php } else { ?>
                     <li><a href="pages/Connexion/connexion.php">Connexion</a></li>
                     <li><a href="pages/Login/login.php" class="btn btn-danger">S'inscrire</a></li>
-                <?php 
-                } 
-                ?>
+                <?php } ?>
             </ul>
         </div>
     </nav>
@@ -39,23 +30,15 @@ session_start();
         <div class="hero-content">
             <h1>FUTSAL. PASSION. COMMUNAUTÉ.</h1>
             <p>Réservez vos créneaux, inscrivez-vous aux stages et participez aux tournois de la région.</p>
-            
             <a href="pages/Prestation/prestation.php" class="btn btn-primary">Voir nos offres</a>
-            
-            <?php 
-            // Si on n'est PAS connecté (!isset), on propose de créer un compte
-            if (!isset($_SESSION['adherent_id'])) { 
-            ?>
+            <?php if (!isset($_SESSION['adherent_id'])) { ?>
                 <a href="pages/Login/login.php" class="btn btn-secondary">Créer mon compte</a>
-            <?php 
-            } 
-            ?>
+            <?php } ?>
         </div>
     </section>
 
     <div class="container">
         <h2>Nos Prestations Phares</h2>
-        
         <div class="cards-grid">
             <div class="card">
                 <h3>PRATIQUE LIBRE</h3>
@@ -63,14 +46,12 @@ session_start();
                 <p><strong>8,00 € / séance</strong></p>
                 <a href="pages/Reservation/reservation.php" class="btn btn-primary">Réserver</a>
             </div>
-
             <div class="card">
                 <h3>STAGE ENFANT</h3>
                 <p>5 jours intensifs avec encadrement (-14 ans).</p>
                 <p><strong>60,00 € / stage</strong></p>
                 <a href="pages/Reservation/reservation.php" class="btn btn-primary">Réserver</a>
             </div>
-
             <div class="card">
                 <h3>TOURNOI ÉTÉ</h3>
                 <p>Compétition inter-clubs format 5v5.</p>
@@ -94,6 +75,5 @@ session_start();
         </div>
         <p style="text-align: center;">&copy; 2026 FOU DE FOOT - Tous droits réservés</p>
     </footer>
-
 </body>
 </html>
